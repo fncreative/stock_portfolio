@@ -37,10 +37,6 @@ def company_search():
             }
 
             new_company = Company(**company)
-            # Company(
-            #     symbol=data['symbol'],
-            #     ...
-            # )
             db.session.add(new_company)
             db.session.commit()
 
