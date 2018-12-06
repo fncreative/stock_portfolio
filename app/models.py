@@ -12,12 +12,13 @@ migrate = Migrate(app,db)
 
 # Models #
 
+
 class Stock(db.Model):
     __tablename__ = 'stocks'
 
     id = db.Column(db.Integer, primary_key=True)
-    stockName = db.Column(db.String(256), index=True, unique=True)
+    companyName = db.Column(db.String(256), index=True, unique=True)
     date_created = db.Column(db.DateTime, default=dt.now())
 
     def __repr__(self):
-        return '<Stock {}>'.format(self.stockName)
+        return '<Stock {}>'.format(self.companyName)

@@ -4,7 +4,7 @@
 <h2>Search for Stock</h2>
 <form method ="POST" action="/search">
   {{ form.csrf_token }}
-  {{ form.stock_name.label }} {{ form.stock_name(size=20) }}
+  {{ form.company.label }} {{ form.company(size=20) }}
   <input type="submit" value="Go">
   </form>
   {% endblock %}

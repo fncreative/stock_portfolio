@@ -11,8 +11,6 @@ flask-migrate = "*"
 flask-sqlalchemy = "*"
 flask-wtf = "*"
 requests = "*"
-psycopg2-binary = "*"
-passlib = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"
