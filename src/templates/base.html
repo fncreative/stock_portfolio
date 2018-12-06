@@ -7,14 +7,16 @@
   <link rel="stylesheet" href="{{ url_for("static", filename="css/normalize.css") }}">
   <link rel="stylesheet" href="{{ url_for("static", filename="css/skeleton.css") }}">
   <link rel="stylesheet" href="{{ url_for("static", filename="css/style.css") }}">
-  <title>Stock Portfolio</title>
+  <link rel="icon" type="image/png" href="{{ url_for("static", filename="assets/dino.png") }}">
+  <title>Flask Demo</title>
 </head>
 <body>
   <header>
     <nav class="main_nav">
       <ul>
         <li><a href="{{ url_for(".home") }}">Home</a></li>
-        <li><a href="{{ url_for(".stock_search") }}">Search</a></li>
+        <li><a href="{{ url_for(".company_search") }}">Search</a></li>
+        <li><a href="{{ url_for(".portfolio_detail") }}">Portfolio</a></li>
       </ul>
     </nav>
   </header>
@@ -23,8 +25,6 @@
     <h3>No Content</h3>
     {% endblock content%}
   </main>
-  <footer>
-
-  </footer>
+  <footer></footer>
 </body>
 </html>
