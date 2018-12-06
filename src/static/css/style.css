@@ -15,10 +15,6 @@ header {
     content: ' |';
 }
 
-.main_nav ul:before {
-    content: url('../assets/dino.png');
-}
-
 .company_labels {
   font-weight: bold;
 }
