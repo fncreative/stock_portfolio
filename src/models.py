@@ -9,6 +9,8 @@ migrate = Migrate(app, db)
 
 
 class Company(db.Model):
+    """instantiate a Company class which takes in a db model as input.
+    """
     __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)

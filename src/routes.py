@@ -15,7 +15,7 @@ def home():
 
 @app.route('/search', methods=['GET', 'POST'])
 def company_search():
-    """
+    """Function for the company search. Accepts both the GET and POST methods
     """
     form = CompanySearchForm()
 
