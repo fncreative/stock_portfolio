@@ -1,25 +1,12 @@
 from . import app
-
-# 3rd Party Requirements
 from flask import render_template, abort, redirect, url_for, session, g, make_response
 from sqlalchemy.exc import IntegrityError
-
-# Models
-from .models import db, Stock
-
-# Forms
+from .models import db, Company
 from .forms import StockSearchForm
-
-# API Requests & Other
 import json
 from json import JSONDecodeError
 import requests as req
 import os
-
-
-# Helpers
-def fetch_stock_data(company):
-    return req.get(f'https://api.iextrading.com/1.0/stock/{company}/company')
 
 
 # Controllers #
@@ -35,29 +22,37 @@ def stock_search():
     form = StockSearchForm()
 
     if form.validate_on_submit():
-        try:
-            res = fetch_stock_data(form.data['company'])
-            session['context'] = res.text
+        res = req.get(f'https://api.iextrading.com/1.0/stock/{ form.data[0] }/company')
 
-        except JSONDecodeError:
+        try:
+            data = json.loads(res.text)
+            company = {
+                'symbol': data['symbol'],
+                'companyName': data['companyName'],
+                'exchange': data['exchange'],
+                'industry': data['industry'],
+                'website': data['website'],
+                'description': data['description'],
+                'CEO': data['CEO'],
+                'issueType': data['issueType'],
+                'sector': data['sector']
+            }
+
+            new_company = Company(**company)
+            db.sessoin.add(new_company)
+            db.session.commit()
+
+            return redirect(url_for('.portfolio'))
+
+        except json.JSONDecodeError:
             abort(404)
 
-        return redirect(url_for('.portfolio'))
 
     return render_template('search.html', form=form)
 
 
 @app.route('/portfolio')
-@app.route('/portfolio/<company_name>')
-def portfolio(company_name=None):
+def portfolio_detail():
 
-    try:
-        if company_name:
-            res = fetch_stock_data(company_name)
-            return render_template('portfolio.html', company_data=res)
+    return render_template('portfolio/portfolio_detail.html')
 
-        context = json.loads(session['context'])
-        return render_template('portfolio.html', company_data=context)
-
-    except JSONDecodeError:
-            abort(404)

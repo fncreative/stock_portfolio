@@ -1,4 +1,4 @@
-# Stock Portfolio
+# Company Portfolio
 
 **Author**: Daniel Frey
 **Version**: 0.0.1
