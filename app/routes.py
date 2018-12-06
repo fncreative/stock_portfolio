@@ -31,6 +31,7 @@ def home():
 
 @app.route('/search', methods=['GET', 'POST'])
 def stock_search():
+    """Search for company stock information."""
     form = StockSearchForm()
 
     if form.validate_on_submit():
