@@ -8,4 +8,4 @@ from wtforms.validators import DataRequired
 
 class StockSearchForm(FlaskForm):
     """Form that allows for the search of the stock"""
-    stock_name = StringField('name', validators=[DataRequired()])
+    company = StringField('name', validators=[DataRequired()])
