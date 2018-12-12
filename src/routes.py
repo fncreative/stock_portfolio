@@ -8,8 +8,7 @@ import json
 
 @app.route('/')
 def home():
-    """
-    """
+    """Home route for stock portfolio"""
     return render_template('home.html')
 
 
@@ -46,6 +45,13 @@ def company_search():
             abort(404)
 
     return render_template('portfolio/search.html', form=form)
+
+
+@app.route('/preview', methods=['GET', 'POST'])
+def preview_stocks():
+    """This will render the preview of the stock information before adding
+    to the database"""
+    pass
 
 
 @app.route('/portfolio')
