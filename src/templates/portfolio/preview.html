@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <p>Name: {{ company_data.companyName }}</p>
+  <p>Symbol: {{ company_data.symbol }}</p>
+
+  <form action="{{ url_for(".company_preview") }}" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="hidden" hidden>
+      {{ form.companyName.label }}{{ form.companyName(size=20) }}
+      {{ form.symbol.label }}{{ form.symbol(size=20) }}
+    </div>
+    <input type="submit" value="Add this company to your portfolio">
+  </form>
+</div>
+{% endblock %}

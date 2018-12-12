@@ -1,6 +1,16 @@
 from flask import session
 import pytest
-from ..src import app
+from .. import app
+from src.models import db
+
+
+@pytest.fixture
+def client():
+    def do_nothing():
+        pass
+    db.session.commit = do_nothing
+    yield app.test_client()
+    db.session.rollback()
 
 
 def test_home_get():
@@ -12,7 +22,7 @@ def test_home_get():
 def test_home_get_content():
     """Test the home route to get data"""
     rv = app.test_client().get('/')
-    assert b'<h1>Welcome to the site.</h1>' in rv.data
+    assert b'<h1>Welcome to the site</h1>' in rv.data
 
 
 def test_home_method_nonexist():
@@ -30,7 +40,7 @@ def test_search_route():
 def test_search_get_content():
     """Test the search method for content"""
     rv = app.test_client().get('/search')
-    assert b'<h2>Search for stocks</h2>' in rv.data
+    assert b'<h2>Search for a stock symbol</h2>' in rv.data
 
 
 def test_search_incorrect_method():
@@ -42,7 +52,7 @@ def test_search_incorrect_method():
 def test_search_route_post(client):
     """Test the search route post method"""
     rv = client.post('/search', data={'symbol': 'goog'})
-    assert rv.status_code == 302
+    assert rv.status_code == 200
 
 
 def test_portfolio_route(client):
@@ -54,7 +64,7 @@ def test_portfolio_route(client):
 def test_portfolio_content():
     """Test that content can be received"""
     rv = app.test_client().get('/portfolio')
-    assert b'<h2>Welcome to the Portfolio</h2>' in rv.data
+    assert b'<p>Microsoft Corporation (MSFT)</p>' in rv.data
 
 
 def test_portfolio_content_error():

@@ -1,8 +1,11 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 
 {% block content %}
-<div class="container">
-  <h2>Welcome to the Portfolio</h2>
-  <p>Currently under construction</p>
-</div>
-{% endblock %}
+<h2>Your Portfolio</h2>
+<ul>
+{% for company in companies %}
+  <li><p>{{ company.companyName }} ({{ company.symbol }})</p></li>
+{% endfor %}
+</ul>
+{% endblock content %}

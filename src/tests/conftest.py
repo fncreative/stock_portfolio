@@ -1,8 +1,8 @@
 import os
 import tempfile
 
-from ..src import app
-from ..src.models import db, Company
+from src import app
+from src.models import db, Company
 
 import pytest
 
