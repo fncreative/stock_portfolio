@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, abort, flash, session
-from .forms import CompanySearchForm
+from .forms import CompanySearchForm, StockAddForm
 from .models import Company, db
 import requests as req
 from . import app
@@ -51,7 +51,12 @@ def company_search():
 def preview_stocks():
     """This will render the preview of the stock information before adding
     to the database"""
+    form_context = {
+        'symbol': session['context']['symbol'],
+    }
+    form = StockAddForm(**form_context)
     pass
+
 
 
 @app.route('/portfolio')
