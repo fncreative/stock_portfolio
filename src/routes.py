@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, abort
+from flask import render_template, redirect, url_for, abort, flash, session
 from .forms import CompanySearchForm
 from .models import Company, db
 import requests as req
