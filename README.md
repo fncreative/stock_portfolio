@@ -13,6 +13,12 @@ This is an application that consumes data from a 3rd party API and provides our 
 ## Architecture
 Requires Python >= 3.6
 
+
+## Testing
+
+coverage run --source src -m --omit src/tests pytest
+coverage report
+
 ## API
 https://iextrading.com/developer/
 
