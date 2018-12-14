@@ -51,9 +51,7 @@ class Account(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(256), index=True, nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
-
     portfolios = db.relationship('Portfolio', backref='user', lazy=True)
-
     date_created = db.Column(db.DateTime, default=dt.now())
 
     def __repr__(self):
