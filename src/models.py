@@ -39,6 +39,7 @@ class Portfolio(db.Model):
     name = db.Column(db.String(256), index=True)
     companies = db.relationship('Company', backref='portfolio', lazy=True)
     date_created = db.Column(db.DateTime, default=dt.now())
+    account_id = db.Column(db.ForeignKey('accounts.id'), nullable=False)
 
     def __repr__(self):
         return '<Portfolio {}>'.format(self.name)
