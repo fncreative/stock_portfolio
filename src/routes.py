@@ -84,20 +84,3 @@ def portfolio_detail():
     return render_template('portfolio/portfolio.html', companies=companies)
 
 
-@app.route('/stock-data/<company>', methods=['GET'])
-def stock_data(company=None):
-    """Stock Data for visualization"""
-    if company is None:
-        abort(404)
-
-    chart_script, chart_div = make_5y_stock_chart(company)
-    chart_vwap_script, chart_vwap_div = make_5y_vwap_chart(company)
-
-    return render_template(
-        'pages/stock_data.html',
-        company=company,
-        chart_script=chart_script,
-        chart_div=chart_div,
-        chart_vwap_div=chart_vwap_div,
-        chart_vwap_script=chart_vwap_script
-    )
