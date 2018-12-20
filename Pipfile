@@ -1,17 +1,30 @@
 [[source]]
+name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-name = "pypi"
-
-[packages]
-flask = "*"
-"psycopg2-binary" = "*"
-flask-migrate = "*"
-flask-sqlalchemy = "*"
-flask-wtf = "*"
-requests = "*"
 
 [dev-packages]
+pep8 = "*"
+pylint = "*"
+pydocstyle = "*"
+flake8 = "*"
+
+[packages]
+requests = "*"
+flask = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+psycopg2-binary = "*"
+flask-wtf = "*"
+python-dotenv = "*"
+coverage = "*"
+pytest = "*"
+passlib = "*"
+pandas = "*"
+numpy = "*"
+bokeh = "*"
+jupyter = "*"
+stockstats = "*"
 
 [requires]
 python_version = "3.6"

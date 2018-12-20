@@ -6,6 +6,7 @@ from . import app
 import requests
 import json
 from sqlalchemy.exc import DBAPIError, IntegrityError
+from .charts import make_5y_stock_chart, make_5y_vwap_chart
 
 
 @app.route('/')
@@ -77,7 +78,9 @@ def company_preview():
 
 @app.route('/portfolio')
 def portfolio_detail():
-    """
+    """Give company detail
     """
     companies = Company.query.all()
     return render_template('portfolio/portfolio.html', companies=companies)
+
+
