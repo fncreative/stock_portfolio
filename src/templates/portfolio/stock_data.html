@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Stock Data{% endblock %}
+{% block h1 %}Stock Data{% endblock %}
+
+{% block content %}
+<h2>Stock Value History</h2>
+<p>Stock history for the last 5 years (if history is less than 5 years, shows whole history)</p>
+{{ chart_script|safe }}
+{{ chart_div|safe }}
+
+<h2>Stock vwap history</h2>
+<p>Stock history for the last 5 years (if history is less than 5 years, shows whole history)</p>
+{{ chart_vwap_script|safe }}
+{{ chart_vwap_div|safe }}
+{% endblock %}

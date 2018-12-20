@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Company Info{% endblock %}
+{% block h1 %}Company Info{% endblock %}
+
+{% block content %}
+<p>Company {{ company.symbol }} found!</p>
+<h2>{{ company.companyName }} ({{ company.symbol }})</h2>
+<p>{{ company.description }}</p>
+
+<form action="/company" method="POST">
+  {{ form.csrf_token }}
+  {{ form.symbol(value=company.symbol) }}
+  {{ form.companyName(value=company.companyName) }}
+  {{ form.exchange(value=company.exchange) }}
+  {{ form.industry(value=company.industry) }}
+  {{ form.website(value=company.website) }}
+  {{ form.description(value=company.description) }}
+  {{ form.CEO(value=company.CEO) }}
+  {{ form.issueType(value=company.issueType) }}
+  {{ form.sector(value=company.sector) }}
+  {{ form.portfolio_id.label }} {{ form.portfolio_id }}
+  <input type="submit" value="Add company">
+</form>
+<form action="/cancel-company" method="POST">
+<input type="submit" value="Cancel">
+</form>
+
+<h2>Stock Value History</h2>
+<p>Stock history for the last 5 years</p>
+{{ chart_script|safe }}
+{{ chart_div|safe }}
+
+<h2>Stock history</h2>
+<p>Stock history for the last 5 years</p>
+{{ chart_vwap_script|safe }}
+{{ chart_vwap_div|safe }}
+{% endblock %}

@@ -6,8 +6,7 @@ from . import app
 import requests
 import json
 from sqlalchemy.exc import DBAPIError, IntegrityError, InvalidRequestError
-
-
+from .charts import make_5y_stock_chart, make_5y_vwap_chart
 
 @app.add_template_global
 def get_portfolios():
@@ -84,7 +83,7 @@ def company_preview():
 
 @app.route('/portfolio', methods=['GET', 'POST'])
 def portfolio_detail():
-    """
+    """Give company detail
     """
     form = PortfolioAddForm()
 
@@ -100,3 +99,6 @@ def portfolio_detail():
         return redirect(url_for('.company_search'))
 
     return render_template('portfolio/portfolio.html', form=form)
+    companies = Company.query.all()
+    return render_template('portfolio/portfolio.html', companies=companies)
+
