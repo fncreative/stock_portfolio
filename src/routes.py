@@ -78,7 +78,7 @@ def company_preview():
 
 @app.route('/portfolio')
 def portfolio_detail():
-    """
+    """Give company detail
     """
     companies = Company.query.all()
     return render_template('portfolio/portfolio.html', companies=companies)
@@ -86,7 +86,7 @@ def portfolio_detail():
 
 @app.route('/stock-data/<company>', methods=['GET'])
 def stock_data(company=None):
-    """ function for a page wheere you can see charts for a given company """
+    """Stock Data for visualization"""
     if company is None:
         abort(404)
 
