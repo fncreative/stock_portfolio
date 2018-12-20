@@ -6,24 +6,25 @@ verify_ssl = true
 [dev-packages]
 pep8 = "*"
 pylint = "*"
+pydocstyle = "*"
 flake8 = "*"
 
 [packages]
-flask = "*"
-pytest = "*"
-flask-wtf = "*"
 requests = "*"
-flask-migrate = "*"
+flask = "*"
 flask-sqlalchemy = "*"
+flask-migrate = "*"
 psycopg2-binary = "*"
+flask-wtf = "*"
+python-dotenv = "*"
 coverage = "*"
-psycopg2 = "*"
+pytest = "*"
 passlib = "*"
 pandas = "*"
 numpy = "*"
-scipy = "*"
-matplotlib = "*"
 bokeh = "*"
+jupyter = "*"
+stockstats = "*"
 
 [requires]
 python_version = "3.6"
