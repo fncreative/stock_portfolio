@@ -6,6 +6,7 @@ from . import app
 import requests
 import json
 from sqlalchemy.exc import DBAPIError, IntegrityError
+from .charts import make_5y_stock_chart, make_5y_vwap_chart
 
 
 @app.route('/')
@@ -81,3 +82,22 @@ def portfolio_detail():
     """
     companies = Company.query.all()
     return render_template('portfolio/portfolio.html', companies=companies)
+
+
+@app.route('/stock-data/<company>', methods=['GET'])
+def stock_data(company=None):
+    """ function for a page wheere you can see charts for a given company """
+    if company is None:
+        abort(404)
+
+    chart_script, chart_div = make_5y_stock_chart(company)
+    chart_vwap_script, chart_vwap_div = make_5y_vwap_chart(company)
+
+    return render_template(
+        'pages/stock_data.html',
+        company=company,
+        chart_script=chart_script,
+        chart_div=chart_div,
+        chart_vwap_div=chart_vwap_div,
+        chart_vwap_script=chart_vwap_script
+    )
