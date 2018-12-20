@@ -8,9 +8,12 @@
   <form action="{{ url_for(".company_preview") }}" method="POST">
     {{ form.hidden_tag() }}
     <div class="hidden" hidden>
+      <!-- hidden details for the company -->
       {{ form.companyName.label }}{{ form.companyName(size=20) }}
       {{ form.symbol.label }}{{ form.symbol(size=20) }}
     </div>
+    <!-- Show the select element for portfolios -->
+    {{ form.portfolios.label }}{{ form.portfolios() }}
     <input type="submit" value="Add this company to your portfolio">
   </form>
 </div>

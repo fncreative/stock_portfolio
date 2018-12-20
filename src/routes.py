@@ -1,12 +1,16 @@
 from flask import render_template, redirect, url_for, abort, flash, session
-from .forms import CompanySearchForm, CompanyAddForm
-from .models import Company, db
+from .forms import CompanySearchForm, CompanyAddForm, PortfolioAddForm
+from .models import Company, db, Portfolio
 import requests as req
 from . import app
 import requests
 import json
-from sqlalchemy.exc import DBAPIError, IntegrityError
+from sqlalchemy.exc import DBAPIError, IntegrityError, InvalidRequestError
 from .charts import make_5y_stock_chart, make_5y_vwap_chart
+
+@app.add_template_global
+def get_portfolios():
+    return Portfolio.query.all()
 
 
 @app.route('/')
@@ -54,6 +58,7 @@ def company_preview():
         try:
             company = Company(
                 symbol=form.data['symbol'],
+                portfolio_id=form.data['portfolios'],
                 companyName=form.data['companyName'],
                 exchange=form.data['exchange'],
                 industry=form.data['industry'],
@@ -65,22 +70,35 @@ def company_preview():
             )
             db.session.add(company)
             db.session.commit()
-        except (DBAPIError, IntegrityError):
-            flash('An error occurred trying to add this company.')
+        except (DBAPIError, IntegrityError, InvalidRequestError):
+            flash('An error occurred trying to add the company.')
             # Error in writing to db. End this req/res cycle and render search page.
             return render_template('portfolio/search.html', form=form)
         # Write was successful. Redirect to portfolio detail page
-        print('Successful write to database.')
+        print('Company added to the database.')
         return redirect(url_for('.portfolio_detail'))
     # This was a POST method. Render the portfolio preview with form context
     return render_template('portfolio/preview.html', form=form, company_data=session['context'])
 
 
-@app.route('/portfolio')
+@app.route('/portfolio', methods=['GET', 'POST'])
 def portfolio_detail():
     """Give company detail
     """
+    form = PortfolioAddForm()
+
+    if form.validate_on_submit():
+        try:
+            portfolio = Portfolio(name=form.data['name'])
+            db.session.add(portfolio)
+            db.session.commit()
+        except (DBAPIError, IntegrityError):
+            flash('There was a problem creating the portfolio.')
+            return render_template('portfolio/search.html', form=form)
+        # Create portfolio was successful. Redirect to search.html
+        return redirect(url_for('.company_search'))
+
+    return render_template('portfolio/portfolio.html', form=form)
     companies = Company.query.all()
     return render_template('portfolio/portfolio.html', companies=companies)
-
 

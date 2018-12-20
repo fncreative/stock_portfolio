@@ -1,3 +1,0 @@
-[run]
-source = stocks_portfolio/src
-omit = stocks_app/test*

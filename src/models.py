@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime as dt
 from flask_migrate import Migrate
 from . import app
+from passlib.hash import sha256_crypt
 
 
 db = SQLAlchemy(app)
@@ -14,6 +15,7 @@ class Company(db.Model):
     __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
+    portfolio_id = db.Column(db.ForeignKey('portfolios.id'), nullable=False)
     symbol = db.Column(db.String(64), index=True, unique=True)
     companyName = db.Column(db.String(256), index=True, unique=True)
     exchange = db.Column(db.String(128))
@@ -28,3 +30,41 @@ class Company(db.Model):
 
     def __repr__(self):
         return '<Company {}>'.format(self.companyName)
+
+
+class Portfolio(db.Model):
+    __tablename__ = 'portfolios'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(256), index=True)
+    companies = db.relationship('Company', backref='portfolio', lazy=True)
+    date_created = db.Column(db.DateTime, default=dt.now())
+    account_id = db.Column(db.ForeignKey('accounts.id'), nullable=False)
+
+    def __repr__(self):
+        return '<Portfolio {}>'.format(self.name)
+
+
+class Account(db.Model):
+    __tablename__ = 'accounts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(256), index=True, nullable=False, unique=True)
+    password = db.Column(db.String(256), nullable=False)
+    portfolios = db.relationship('Portfolio', backref='user', lazy=True)
+    date_created = db.Column(db.DateTime, default=dt.now())
+
+    def __repr__(self):
+        return '<Account {}>'.format(self.email)
+
+    def __init__(self, email, password):
+        self.email = email
+        self.password = sha256_crypt.encrypt(password)
+
+    @classmethod
+    def check_password_hash(cls, account, password):
+        if account is not None:
+            if sha256_crypt.verify(password, account.password):
+                return True
+
+        return False
